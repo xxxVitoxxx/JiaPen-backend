@@ -1,0 +1,24 @@
+version: "3"
+
+services: 
+  mysql:
+    image: mysql:5.7
+    container_name: jiaben-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=testdb
+      - MYSQL_USER=testuser
+      - MYSQL_PASSWORD=testpwd
+      - LANG=C.UTF-8
+    ports:
+      - 3306:3306
+    volumes:
+      - mysqldb-data:/var/lib/mysqldb
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+  adminer:
+    image: adminer:latest
+    container_name: jiaben-adminer
+    ports:
+      - 3307:8080
+volumes:
+  mysqldb-data:
