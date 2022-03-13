@@ -1,0 +1,50 @@
+openapi: "3.0.2"
+
+info:
+  title: message board
+  description: message board
+  version: "0.1.0"
+
+servers:
+  - url: "http://localhost/message_api"
+    description: localhost
+
+paths: 
+  /message:
+    post:
+      tags: 
+        - message
+      summary: create message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  description: 留言者
+                  type: string
+                content:
+                  description: 留言內容
+                  type: string
+              example:
+                user: "vito"
+                content: "今天天氣真好呀~~~~"
+              required:
+                - content
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Bad Request
+        "500":
+          description: Internal Error
