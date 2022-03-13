@@ -1,0 +1,7 @@
+mysql:
+  addr: localhost:3306
+  user: testuser
+  password: testpwd
+  database: testdb
+message:
+  port: 10081
