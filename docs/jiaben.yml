@@ -9,11 +9,15 @@ servers:
   - url: "http://localhost/message_api"
     description: localhost
 
+tags:
+  - name: Message
+    description: 留言板相關的 api
+
 paths: 
   /message:
     post:
       tags: 
-        - message
+        - Message
       summary: create message
       requestBody:
         required: true
@@ -32,6 +36,7 @@ paths:
                 user: "vito"
                 content: "今天天氣真好呀~~~~"
               required:
+                - user
                 - content
       responses:
         "201":
@@ -48,3 +53,58 @@ paths:
                     example: Bad Request
         "500":
           description: Internal Error
+    get:
+      tags: 
+        - Message
+      summary: get all of information about message
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: Message Id
+                    user:
+                      type: string
+                      description: user
+                    content:
+                      type: string
+                      description: content
+                    created_at:
+                      type: string
+                      format: datetime
+                      description: 建立留言時間
+                    updated_at:
+                      type: string
+                      format: datetime
+                      description: 更新留言時間
+              example:
+                - id: 1
+                  user: vito
+                  content: 你今天過得好嗎
+                  created_at: 2022-01-01T15:16:11Z
+                  updated_at: 2022-01-01T15:16:11Z
+                - id: 2
+                  user: eve
+                  content: 今天天氣真好
+                  created_at: 2022-01-01T15:22:34Z
+                  updated_at: 2022-01-01T15:33:14Z
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 
+                      Bad Request
+        500:
+          description: Internal Server Error
