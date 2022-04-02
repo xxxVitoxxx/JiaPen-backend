@@ -1,6 +1,8 @@
 package fake
 
-import "github.com/xxxVitoxxx/JiaPen-backend/pkg/message"
+import (
+	"github.com/xxxVitoxxx/JiaPen-backend/pkg/message"
+)
 
 // MessageRepo _
 type MessageRepo struct {
@@ -20,5 +22,14 @@ func NewMessageRepo() *MessageRepo {
 func (m *MessageRepo) CreateMessage(input message.Message) error {
 	m.MessageId++
 	m.Messages[m.MessageId] = input
+	return nil
+}
+
+// UpdateMessage _
+func (m *MessageRepo) UpdateMessage(id uint, content message.UpdateMessage) error {
+	message := m.Messages[int(id)]
+	message.Content = content.Content
+	m.Messages[int(id)] = message
+
 	return nil
 }

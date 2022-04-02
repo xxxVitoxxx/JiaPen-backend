@@ -20,3 +20,13 @@ func NewService(r Repository) *Service {
 func (s *Service) CreateMessage(message Message) error {
 	return s.r.CreateMessage(message)
 }
+
+// UpdateMessage _
+type UpdateMessage struct {
+	Content string `json:"content"`
+}
+
+// UpdateMessage _
+func (s *Service) UpdateMessage(id uint, content UpdateMessage) error {
+	return s.r.UpdateMessage(id, content)
+}
