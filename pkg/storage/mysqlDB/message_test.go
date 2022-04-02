@@ -28,4 +28,17 @@ func TestCreateMessage(t *testing.T) {
 		assert.Equal(t, input.Content, dbRepo.Content)
 	})
 
+	t.Run("patch message", func(t *testing.T) {
+		message := message.UpdateMessage{
+			Content: "Hey",
+		}
+
+		err := repo.UpdateMessage(1, message)
+		assert.NoError(t, err)
+
+		dbRepo := Message{}
+		db.Find(&dbRepo)
+		assert.Equal(t, message.Content, dbRepo.Content)
+	})
+
 }
