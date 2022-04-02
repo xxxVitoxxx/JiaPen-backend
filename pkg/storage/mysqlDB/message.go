@@ -36,3 +36,9 @@ func (m *MessageRepo) CreateMessage(input message.Message) error {
 
 	return result.Error
 }
+
+// UpdateMessage _
+func (m *MessageRepo) UpdateMessage(id uint, content message.UpdateMessage) error {
+	// TODO: update content
+	return nil
+}
