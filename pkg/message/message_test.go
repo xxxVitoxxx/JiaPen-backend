@@ -23,7 +23,7 @@ func TestCreateMessage(t *testing.T) {
 		assert.Equal(t, input.Content, fr.Messages[1].Content)
 	})
 
-	t.Run("", func(t *testing.T) {
+	t.Run("patch message", func(t *testing.T) {
 		message := message.UpdateMessage{
 			Content: "hey",
 		}

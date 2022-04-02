@@ -39,6 +39,7 @@ func (m *MessageRepo) CreateMessage(input message.Message) error {
 
 // UpdateMessage _
 func (m *MessageRepo) UpdateMessage(id uint, content message.UpdateMessage) error {
-	// TODO: update content
+	m.db.Model(&Message{}).Where("id = ?", id).Update("content", content.Content)
+
 	return nil
 }
