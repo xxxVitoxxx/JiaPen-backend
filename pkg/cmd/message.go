@@ -47,13 +47,19 @@ var messageCmd = &cobra.Command{
 
 		mysqlDb := conn.CheckConnect()
 
-		// POST
+		// message POST
 		messageHandler := rest.NewMessageHandler(
 			message.NewService(
 				mysqlDB.NewMessageRepo(mysqlDb),
 			),
 		)
 		messageHandler.Router(r)
+
+		// message GET
+		queryMessageHandler := rest.NewQueryMessageHandler(
+			mysqlDB.NewQueryMessageRepo(mysqlDb),
+		)
+		queryMessageHandler.Router(r)
 
 		go func() {
 			if err := r.Run(fmt.Sprintf(":%s", viper.GetString("message.port"))); err != nil {

@@ -53,6 +53,7 @@ paths:
                     example: Bad Request
         "500":
           description: Internal Error
+  /messages:
     get:
       tags: 
         - Message
