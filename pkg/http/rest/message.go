@@ -23,6 +23,7 @@ func (h *MessageHandler) Router(r *gin.Engine) {
 	api := r.Group("/message_api")
 	api.POST("/message", h.CreateMessage)
 	api.PATCH("/message/:message_id", h.UpdateMessage)
+	api.DELETE("/message/:message_id", h.DeleteMessage)
 }
 
 // CreateMessage _
@@ -89,6 +90,29 @@ func (h *MessageHandler) UpdateMessage(c *gin.Context) {
 		Content: req.Content,
 	}
 	err = h.s.UpdateMessage(uint(messageId), message)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+
+		return
+	}
+
+	c.Status(http.StatusNoContent)
+}
+
+// DeleteMessage _
+func (h *MessageHandler) DeleteMessage(c *gin.Context) {
+	messageId, err := strconv.Atoi(c.Param("message_id"))
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+
+		return
+	}
+
+	err = h.s.DeleteMessage(uint(messageId))
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"message": err.Error(),
