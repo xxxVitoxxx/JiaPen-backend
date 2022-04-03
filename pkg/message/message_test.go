@@ -32,4 +32,10 @@ func TestCreateMessage(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, message.Content, fr.Messages[1].Content)
 	})
+
+	t.Run("delete message", func(t *testing.T) {
+		err := s.DeleteMessage(1)
+		assert.NoError(t, err)
+		assert.Len(t, fr.Messages, 0)
+	})
 }

@@ -27,7 +27,15 @@ func (m *MessageRepo) CreateMessage(input message.Message) error {
 
 // UpdateMessage _
 func (m *MessageRepo) UpdateMessage(id uint, content message.UpdateMessage) error {
+	// map 的 struct 用指標就可以直接改值
 	m.Messages[1].Content = content.Content
+
+	return nil
+}
+
+// DeleteMessage _
+func (m *MessageRepo) DeleteMessage(id uint) error {
+	delete(m.Messages, int(id))
 
 	return nil
 }
