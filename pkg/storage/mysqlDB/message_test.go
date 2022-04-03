@@ -41,4 +41,12 @@ func TestCreateMessage(t *testing.T) {
 		assert.Equal(t, message.Content, dbRepo.Content)
 	})
 
+	t.Run("delete message", func(t *testing.T) {
+		err := repo.DeleteMessage(1)
+		assert.NoError(t, err)
+
+		dbRepo := Message{}
+		db.Find(&dbRepo)
+		assert.Equal(t, "", dbRepo.Content)
+	})
 }
