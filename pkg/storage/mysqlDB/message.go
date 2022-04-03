@@ -39,7 +39,14 @@ func (m *MessageRepo) CreateMessage(input message.Message) error {
 
 // UpdateMessage _
 func (m *MessageRepo) UpdateMessage(id uint, content message.UpdateMessage) error {
-	m.db.Model(&Message{}).Where("id = ?", id).Update("content", content.Content)
+	result := m.db.Model(&Message{}).Where("id = ?", id).Update("content", content.Content)
 
-	return nil
+	return result.Error
+}
+
+// DeleteMessage _
+func (m *MessageRepo) DeleteMessage(id uint) error {
+	result := m.db.Delete(&Message{}, id)
+
+	return result.Error
 }
