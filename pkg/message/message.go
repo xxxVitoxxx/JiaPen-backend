@@ -30,3 +30,8 @@ type UpdateMessage struct {
 func (s *Service) UpdateMessage(id uint, content UpdateMessage) error {
 	return s.r.UpdateMessage(id, content)
 }
+
+// DeleteMessage _
+func (s *Service) DeleteMessage(id uint) error {
+	return s.r.DeleteMessage(id)
+}
