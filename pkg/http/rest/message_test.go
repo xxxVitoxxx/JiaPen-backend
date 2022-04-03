@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/hex"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -15,7 +14,7 @@ import (
 	"github.com/xxxVitoxxx/JiaPen-backend/pkg/storage/fake"
 )
 
-func TestCreateMessage(t *testing.T) {
+func TestMessage(t *testing.T) {
 	r := gin.Default()
 	fr := fake.NewMessageRepo()
 	s := message.NewService(fr)
@@ -37,9 +36,7 @@ func TestCreateMessage(t *testing.T) {
 
 		assert.NoError(t, err)
 		r.ServeHTTP(w, req)
-
-		assert.Equal(t, 201, w.Code)
-		fmt.Println("Body:", w.Body)
+		assert.Equal(t, http.StatusCreated, w.Code)
 	})
 
 	t.Run("when content more than 300 should return 400", func(t *testing.T) {
@@ -48,6 +45,7 @@ func TestCreateMessage(t *testing.T) {
 			User:    "vito",
 			Content: hex.EncodeToString(fakeString),
 		})
+
 		w := httptest.NewRecorder()
 		req, _ := http.NewRequest(
 			http.MethodPost,
@@ -57,6 +55,21 @@ func TestCreateMessage(t *testing.T) {
 		r.ServeHTTP(w, req)
 		assert.Equal(t, http.StatusBadRequest, w.Code)
 
+	})
+
+	t.Run("patch message", func(t *testing.T) {
+		message, _ := json.Marshal(UpdateMessage{
+			Content: "我今天很好",
+		})
+
+		w := httptest.NewRecorder()
+		req, _ := http.NewRequest(
+			http.MethodPatch,
+			"/message_api/message/1",
+			bytes.NewBuffer(message),
+		)
+		r.ServeHTTP(w, req)
+		assert.Equal(t, http.StatusNoContent, w.Code)
 	})
 
 	t.Run("delete message", func(t *testing.T) {
