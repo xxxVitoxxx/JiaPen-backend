@@ -58,4 +58,15 @@ func TestCreateMessage(t *testing.T) {
 		assert.Equal(t, http.StatusBadRequest, w.Code)
 
 	})
+
+	t.Run("delete message", func(t *testing.T) {
+		w := httptest.NewRecorder()
+		req, _ := http.NewRequest(
+			http.MethodDelete,
+			"/message_api/message/1",
+			nil,
+		)
+		r.ServeHTTP(w, req)
+		assert.Equal(t, http.StatusNoContent, w.Code)
+	})
 }
